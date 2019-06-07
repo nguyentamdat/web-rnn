@@ -12,47 +12,49 @@
   <body class="h-auto">
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
-    <div class="w-50 d-flex flex-column justify-content-between align-item-center">
-      <div class="row">
-        <div class="toggle-button-demo">
-          <input class="toggle toggle-ios" id="toggle1" type="checkbox"/>
-          <label class="toggle-btn" for="toggle1"></label>
+    <form method="POST" action="/">
+      <div class="w-50 d-flex flex-column justify-content-between align-item-center">
+        <div class="row">
+          <div class="toggle-button-demo">
+            <input class="toggle toggle-ios" id="toggle1" type="checkbox" <%= arrayOfDevices[0].status ? "checked" : "" %>/>
+            <label class="toggle-btn" for="toggle1"></label>
+          </div>
+          <div class="m-2">Quạt</div>
+          <div class="spinner-grow" role="status">
+            <span class="sr-only"></span>
+          </div>
         </div>
-        <div class="m-2">Quạt</div>
-        <div class="spinner-grow" role="status">
-          <span class="sr-only"></span>
+        <div class="row">
+          <div class="toggle-button-demo">
+            <input class="toggle toggle-ios" id="toggle2" type="checkbox" <%= arrayOfDevices[1].status ? "checked" : "" %>/>
+            <label class="toggle-btn" for="toggle2"></label>
+          </div>
+          <div class="m-2">Đèn</div>
+          <div class="spinner-grow" role="status">
+            <span class="sr-only"></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="toggle-button-demo">
+            <input class="toggle toggle-ios" id="toggle3" type="checkbox" <%= arrayOfDevices[2].status ? "checked" : "" %>/>
+            <label class="toggle-btn" for="toggle3"></label>
+          </div>
+          <div class="m-2">Máy Lạnh</div>
+          <div class="spinner-grow" role="status">
+            <span class="sr-only"></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="toggle-button-demo">
+            <input class="toggle toggle-ios" id="toggle4" type="checkbox" <%= arrayOfDevices[3].status ? "checked" : "" %>/>
+            <label class="toggle-btn" for="toggle4"></label>
+          </div>
+          <div class="m-2">Tivi</div>
+          <div class="spinner-grow" role="status">
+            <span class="sr-only"></span>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="toggle-button-demo">
-          <input class="toggle toggle-ios" id="toggle2" type="checkbox"/>
-          <label class="toggle-btn" for="toggle2"></label>
-        </div>
-        <div class="m-2">Đèn</div>
-        <div class="spinner-grow" role="status">
-          <span class="sr-only"></span>
-        </div>
-      </div>
-      <div class="row">
-        <div class="toggle-button-demo">
-          <input class="toggle toggle-ios" id="toggle3" type="checkbox"/>
-          <label class="toggle-btn" for="toggle3"></label>
-        </div>
-        <div class="m-2">Máy Lạnh</div>
-        <div class="spinner-grow" role="status">
-          <span class="sr-only"></span>
-        </div>
-      </div>
-      <div class="row">
-        <div class="toggle-button-demo">
-          <input class="toggle toggle-ios" id="toggle4" type="checkbox"/>
-          <label class="toggle-btn" for="toggle4"></label>
-        </div>
-        <div class="m-2">Tivi</div>
-        <div class="spinner-grow" role="status">
-          <span class="sr-only"></span>
-        </div>
-      </div>
-    </div>
+    </form>
   </body>
 </html>
