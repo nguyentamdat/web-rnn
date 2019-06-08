@@ -1,60 +1,114 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Bao Khoa</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel='stylesheet' href='/stylesheets/style.css'/>
   </head>
   <body class="h-auto">
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <script>
+      let arrayOfDevices = [
+        {id: 1, status: false},
+        {id: 2, status: false},
+        {id: 3, status: false},
+        {id: 4, status: false},
+        {id: 5, status: false},
+      ]
+      function onConnect() {
+        console.log("On Connect")
+        client.subscribe("slaves/status")
+      }
+      function onConnectLost() {
+        if (responseObject.errorCode !== 0) {
+          console.log("onConnectionLost:"+responseObject.errorMessage);
+        }
+      }
+      function onMessageArrived(message) {
+        console.log("onMessageArrived:"+message.payloadString);
+      }
+      const client = new Paho.MQTT.Client("baokhoa.tk", 8080, "/", "WebApp");
+      client.onConnectLost = onConnectLost;
+      client.onMessageArrived = onMessageArrived;
+      client.connect({onSuccess: onConnect});
+    </script>
     <form method="POST" action="/">
-      <div class="w-50 d-flex flex-column justify-content-between align-item-center">
-        <div class="row">
-          <div class="toggle-button-demo">
-            <input class="toggle toggle-ios" id="toggle1" type="checkbox" <%= arrayOfDevices[0].status ? "checked" : "" %>/>
-            <label class="toggle-btn" for="toggle1"></label>
+      <div class="w-50 d-flex flex-row justify-content-between align-item-center">
+        <div class="column">
+          <h2>Bathrooom</h2>
+          <div class="row">
+            <div class="toggle-button-demo">
+              <input class="toggle toggle-ios" id="1" type="checkbox"/>
+              <label class="toggle-btn" for="1"></label>
+            </div>
+            <div class="m-2">Lamp</div>
+            <div class="spinner-grow" role="status">
+              <span class="sr-only"></span>
+            </div>
           </div>
-          <div class="m-2">Quạt</div>
-          <div class="spinner-grow" role="status">
-            <span class="sr-only"></span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="toggle-button-demo">
-            <input class="toggle toggle-ios" id="toggle2" type="checkbox" <%= arrayOfDevices[1].status ? "checked" : "" %>/>
-            <label class="toggle-btn" for="toggle2"></label>
-          </div>
-          <div class="m-2">Đèn</div>
-          <div class="spinner-grow" role="status">
-            <span class="sr-only"></span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="toggle-button-demo">
-            <input class="toggle toggle-ios" id="toggle3" type="checkbox" <%= arrayOfDevices[2].status ? "checked" : "" %>/>
-            <label class="toggle-btn" for="toggle3"></label>
-          </div>
-          <div class="m-2">Máy Lạnh</div>
-          <div class="spinner-grow" role="status">
-            <span class="sr-only"></span>
+          <div class="row">
+            <div class="toggle-button-demo">
+              <input class="toggle toggle-ios" id="2" type="checkbox"/>
+              <label class="toggle-btn" for="2"></label>
+            </div>
+            <div class="m-2">Water heater</div>
+            <div class="spinner-grow" role="status">
+              <span class="sr-only"></span>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <div class="toggle-button-demo">
-            <input class="toggle toggle-ios" id="toggle4" type="checkbox" <%= arrayOfDevices[3].status ? "checked" : "" %>/>
-            <label class="toggle-btn" for="toggle4"></label>
+        <div class="column">
+          <h2>Living room</h2>
+          <div class="row">
+            <div class="toggle-button-demo">
+              <input class="toggle toggle-ios" id="3" type="checkbox"/>
+              <label class="toggle-btn" for="3"></label>
+            </div>
+            <div class="m-2">Televison</div>
+            <div class="spinner-grow" role="status">
+              <span class="sr-only"></span>
+            </div>
           </div>
-          <div class="m-2">Tivi</div>
-          <div class="spinner-grow" role="status">
-            <span class="sr-only"></span>
+        </div>
+        <div class="column">
+          <h2>Bedroom</h2>
+          <div class="row">
+            <div class="toggle-button-demo">
+              <input class="toggle toggle-ios" id="4" type="checkbox"/>
+              <label class="toggle-btn" for="4"></label>
+            </div>
+            <div class="m-2">Air Condition</div>
+            <div class="spinner-grow" role="status">
+              <span class="sr-only"></span>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <h2>Work room</h2>
+          <div class="row">
+            <div class="toggle-button-demo">
+              <input class="toggle toggle-ios" id="5" type="checkbox"/>
+              <label class="toggle-btn" for="5"></label>
+            </div>
+            <div class="m-2">Fan</div>
+            <div class="spinner-grow" role="status">
+              <span class="sr-only"></span>
+            </div>
           </div>
         </div>
       </div>
     </form>
+    <script>
+      $("input").change((event) => {
+        let id = event.target.id + (!event.target.checked ? "0" : "1");
+        console.log(id);
+        client.send("slaves/control", id, 1, true);
+        console.log("Sent message");
+      })
+    </script>
   </body>
 </html>
