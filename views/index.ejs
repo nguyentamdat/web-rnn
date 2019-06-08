@@ -12,13 +12,6 @@
   </head>
   <body class="h-auto">
     <script>
-      let arrayOfDevices = [
-        {id: 1, status: false},
-        {id: 2, status: false},
-        {id: 3, status: false},
-        {id: 4, status: false},
-        {id: 5, status: false},
-      ]
       function onConnect() {
         console.log("On Connect")
         client.subscribe("slaves/status")
@@ -31,8 +24,8 @@
       function onMessageArrived(message) {
         console.log("onMessageArrived:"+message.payloadString);
         const id = "#" + message.payloadString[0];
-        if (message.payloadString[1] == 1) $(id).prop("checked", true);
-        else $(id).removeProp("checked");
+        if (message.payloadString[1] == 1) $(id+".toggle").prop("checked", true);
+        else $(id+".toggle").prop("checked", false);
         $("div"+id+".spinner-grow").hide();
       }
       const client = new Paho.MQTT.Client("baokhoa.tk", 8080, "/", "WebApp");
@@ -45,20 +38,20 @@
         <div class="column">
           <h2>Bathrooom</h2>
           <div class="row">
-            <div class="toggle-button-demo">
-              <input class="toggle toggle-ios" id="1" type="checkbox"/>
-              <label class="toggle-btn" for="1"></label>
-            </div>
+            <label class="switch" id="1">
+              <input class="toggle" data-toggle="toggle" id="1" type="checkbox"/>
+              <span class="slider round"></span>
+            </label>
             <div class="m-2">Lamp</div>
             <div class="spinner-grow" id="1" role="status">
               <span class="sr-only"></span>
             </div>
           </div>
           <div class="row">
-            <div class="toggle-button-demo">
-              <input class="toggle toggle-ios" id="2" type="checkbox"/>
-              <label class="toggle-btn" for="2"></label>
-            </div>
+            <label class="switch" id="2">
+              <input class="toggle" data-toggle="toggle" id="2" type="checkbox"/>
+              <span class="slider round"></span>
+            </label>
             <div class="m-2">Water heater</div>
             <div class="spinner-grow" id="2" role="status">
               <span class="sr-only"></span>
@@ -68,10 +61,10 @@
         <div class="column">
           <h2>Living room</h2>
           <div class="row">
-            <div class="toggle-button-demo">
-              <input class="toggle toggle-ios" id="3" type="checkbox"/>
-              <label class="toggle-btn" for="3"></label>
-            </div>
+            <label class="switch" id="3">
+              <input class="toggle" data-toggle="toggle" id="3" type="checkbox"/>
+              <span class="slider round"></span>
+            </label>
             <div class="m-2">Televison</div>
             <div class="spinner-grow" id="3" role="status">
               <span class="sr-only"></span>
@@ -81,10 +74,10 @@
         <div class="column">
           <h2>Bedroom</h2>
           <div class="row">
-            <div class="toggle-button-demo">
-              <input class="toggle toggle-ios" id="4" type="checkbox"/>
-              <label class="toggle-btn" for="4"></label>
-            </div>
+            <label class="switch" id="4">
+              <input class="toggle" data-toggle="toggle" id="4" type="checkbox"/>
+              <span class="slider round"></span>
+            </label>
             <div class="m-2">Air Condition</div>
             <div class="spinner-grow" id="4" role="status">
               <span class="sr-only"></span>
@@ -94,10 +87,10 @@
         <div class="column">
           <h2>Work room</h2>
           <div class="row">
-            <div class="toggle-button-demo">
-              <input class="toggle toggle-ios" id="5" type="checkbox"/>
-              <label class="toggle-btn" for="5"></label>
-            </div>
+            <label class="switch" id="5">
+              <input class="toggle" data-toggle="toggle" id="5" type="checkbox"/>
+              <span class="slider round"></span>
+            </label>
             <div class="m-2">Fan</div>
             <div class="spinner-grow" id="5" role="status">
               <span class="sr-only"></span>
@@ -107,8 +100,10 @@
       </div>
     </form>
     <script>
-      $("input").change((event) => {
+      $("input").click((event) => {
+        event.preventDefault();
         let id = event.target.id + (!event.target.checked ? "0" : "1");
+        console.log(id);
         client.send("slaves/control", id, 1, true);
         $("div#"+event.target.id+".spinner-grow").show();
       })
