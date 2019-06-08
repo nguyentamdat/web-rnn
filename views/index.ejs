@@ -30,6 +30,10 @@
       }
       function onMessageArrived(message) {
         console.log("onMessageArrived:"+message.payloadString);
+        const id = "#" + message.payloadString[0];
+        if (message.payloadString[1] == 1) $(id).prop("checked", true);
+        else $(id).removeProp("checked");
+        $("div"+id+".spinner-grow").hide();
       }
       const client = new Paho.MQTT.Client("baokhoa.tk", 8080, "/", "WebApp");
       client.onConnectLost = onConnectLost;
@@ -46,7 +50,7 @@
               <label class="toggle-btn" for="1"></label>
             </div>
             <div class="m-2">Lamp</div>
-            <div class="spinner-grow" role="status">
+            <div class="spinner-grow" id="1" role="status">
               <span class="sr-only"></span>
             </div>
           </div>
@@ -56,7 +60,7 @@
               <label class="toggle-btn" for="2"></label>
             </div>
             <div class="m-2">Water heater</div>
-            <div class="spinner-grow" role="status">
+            <div class="spinner-grow" id="2" role="status">
               <span class="sr-only"></span>
             </div>
           </div>
@@ -69,7 +73,7 @@
               <label class="toggle-btn" for="3"></label>
             </div>
             <div class="m-2">Televison</div>
-            <div class="spinner-grow" role="status">
+            <div class="spinner-grow" id="3" role="status">
               <span class="sr-only"></span>
             </div>
           </div>
@@ -82,7 +86,7 @@
               <label class="toggle-btn" for="4"></label>
             </div>
             <div class="m-2">Air Condition</div>
-            <div class="spinner-grow" role="status">
+            <div class="spinner-grow" id="4" role="status">
               <span class="sr-only"></span>
             </div>
           </div>
@@ -95,7 +99,7 @@
               <label class="toggle-btn" for="5"></label>
             </div>
             <div class="m-2">Fan</div>
-            <div class="spinner-grow" role="status">
+            <div class="spinner-grow" id="5" role="status">
               <span class="sr-only"></span>
             </div>
           </div>
@@ -105,9 +109,8 @@
     <script>
       $("input").change((event) => {
         let id = event.target.id + (!event.target.checked ? "0" : "1");
-        console.log(id);
         client.send("slaves/control", id, 1, true);
-        console.log("Sent message");
+        $("div#"+event.target.id+".spinner-grow").show();
       })
     </script>
   </body>
