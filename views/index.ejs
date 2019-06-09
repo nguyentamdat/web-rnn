@@ -42,7 +42,7 @@
       const client = new Paho.MQTT.Client("baokhoa.tk", 8080, "/", "WebApp");
       client.onConnectLost = onConnectLost;
       client.onMessageArrived = onMessageArrived;
-      client.connect({onSuccess: onConnect});
+      client.connect({onSuccess: onConnect, keepAliveInterval: 300});
       client.reconnect = true;
     </script>
     
