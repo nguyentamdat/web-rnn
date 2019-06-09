@@ -82,3 +82,9 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.chart-container {
+  position: relative;
+  height: 10vh;
+  width: 20vw;
+}
