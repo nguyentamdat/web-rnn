@@ -39,7 +39,7 @@
         else $(id+".toggle").prop("checked", false);
         $("div"+id+".spinner-grow").hide();
       }
-      const client = new Paho.MQTT.Client("baokhoa.tk", 8080, "/", "WebApp");
+      const client = new Paho.MQTT.Client("baokhoa.tk", 8080, "/", "WebApp" + Math.random() * 1000000);
       client.onConnectLost = onConnectLost;
       client.onMessageArrived = onMessageArrived;
       client.connect({onSuccess: onConnect, keepAliveInterval: 300});
