@@ -2,25 +2,25 @@
 <html>
   <head>
     <title>Supervise</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css"
     />
-    <link rel="stylesheet" href="./stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
     <link
       rel="stylesheet"
       href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css"
     />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -33,13 +33,39 @@
     />
   </head>
   <body class="h-auto p-0">
-    <nav class="navbar navbar-light bg-light">
-      <a class="navbar-brand" href="/">Navbar</a>
-      <a class="navbar-brand" href="#">Supervise</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">
+        <img
+          src="/img/HCMUT_official_logo.png"
+          width="30"
+          height="30"
+          alt=""
+          type="image/png"
+        />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="/">Home</a>
+          <a class="nav-item nav-link active" href="#"
+            >Supervise <span class="sr-only">(current)</span></a
+          >
+        </div>
+      </div>
     </nav>
     <div class="d-flex flex-row">
       <div class="d-flex flex-column w-25">
-        <div class="card">
+        <div class="card p-3 m-3">
           <div class="m-2">
             <div class="form-group">
               <div
@@ -89,20 +115,22 @@
             </div>
             <div class="m-2">
               <button id="submit-date" type="button" class="btn btn-primary">
-                Primary
+                Submit
               </button>
             </div>
           </div>
         </div>
-        <div class="input-group mt-3">
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Amount (to the nearest dollar)"
-            id="warning-value"
-          />
-          <div class="input-group-append">
-            <span class="input-group-text">kW</span>
+        <div class="card p-3 m-3">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Amount (to the nearest dollar)"
+              id="warning-value"
+            />
+            <div class="input-group-append">
+              <span class="input-group-text">kW</span>
+            </div>
           </div>
         </div>
       </div>
@@ -122,8 +150,14 @@
         });
         $("input#warning-value").keypress(event => {
           if (event.which == 13) {
-            alert(`Submit warning: ${event.target.value}`);
+            $.post("http://baokhoa.tk/api/setWarning", {
+              value: event.target.value
+            });
           }
+        });
+        $("button#submit-date").click(event => {
+          let beginDate = $("#datetimepicker7").datetimepicker("viewDate");
+          console.log(beginDate);
         });
         $.get("http://baokhoa.tk/api/getWarningValue", (data, status) => {
           $("input#warning-value").attr("placeholder", data.value);
