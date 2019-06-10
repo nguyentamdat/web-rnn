@@ -129,7 +129,7 @@
               id="warning-value"
             />
             <div class="input-group-append">
-              <span class="input-group-text">kW</span>
+              <span class="input-group-text">kWh</span>
             </div>
           </div>
         </div>
@@ -166,8 +166,13 @@
         let detailChart = new Chart(ctx, {
           type: "line",
           data: {
-            datasets: [],
-            labels: []
+            datasets: [
+              {
+                label: "Consumption kWh",
+                data: [2, 4, 6, 9, 10, 15, 16, 19, 23, 26, 28, 31, 33, 37, 43]
+              }
+            ],
+            labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
           },
           options: {
             scales: {
@@ -179,16 +184,18 @@
                 }
               ]
             },
-            annotations: [
-              {
-                type: "line",
-                mode: "vertical",
-                scalesID: "y-axis-0",
-                value: 1,
-                borderColor: "red",
-                borderWidth: 2
-              }
-            ]
+            annotation: {
+              annotations: [
+                {
+                  type: "line",
+                  mode: "vertical",
+                  scaleID: "x-axis-0",
+                  value: 9,
+                  borderColor: "green",
+                  borderWidth: 2
+                }
+              ]
+            }
           }
         });
       });
