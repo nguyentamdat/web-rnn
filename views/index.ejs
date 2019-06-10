@@ -2,57 +2,90 @@
 <html>
   <head>
     <title>Bao Khoa</title>
-    <link rel='stylesheet' href="/stylesheets/style.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"
+      type="text/javascript"
+    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
   </head>
-  <body class="h-auto">
+  <body class="h-auto p-0">
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand" href="/supervise">Supervise</a>
+    </nav>
     <script type="text/javascript">
       $.get("http://baokhoa.tk/api/getAllStatus", (data, status) => {
         data.forEach(x => {
           let id = "#" + x.id;
-          if (x.status == 1) $(id+".toggle").prop("checked", true);
-          else $(id+".toggle").prop("checked", false);
-          $("div"+id+".spinner-grow").hide();
+          if (x.status == 1) $(id + ".toggle").prop("checked", true);
+          else $(id + ".toggle").prop("checked", false);
+          $("div" + id + ".spinner-grow").hide();
         });
-      })
+      });
       function onConnect() {
-        console.log("On Connect")
-        client.subscribe("slaves/status")
+        console.log("On Connect");
+        client.subscribe("slaves/status");
       }
       function onConnectLost() {
         if (responseObject.errorCode !== 0) {
-          console.log("onConnectionLost:"+responseObject.errorMessage);
+          console.log("onConnectionLost:" + responseObject.errorMessage);
         }
       }
       function onMessageArrived(message) {
-        console.log("onMessageArrived:"+message.payloadString);
+        console.log("onMessageArrived:" + message.payloadString);
         const id = "#" + message.payloadString[0];
-        if (message.payloadString[1] == 1) $(id+".toggle").prop("checked", true);
-        else $(id+".toggle").prop("checked", false);
-        $("div"+id+".spinner-grow").hide();
+        if (message.payloadString[1] == 1)
+          $(id + ".toggle").prop("checked", true);
+        else $(id + ".toggle").prop("checked", false);
+        $("div" + id + ".spinner-grow").hide();
       }
-      const client = new Paho.MQTT.Client("baokhoa.tk", 8080, "/", "WebApp" + Math.random() * 1000000);
+      const client = new Paho.MQTT.Client(
+        "baokhoa.tk",
+        8080,
+        "/",
+        "WebApp" + Math.random() * 1000000
+      );
       client.onConnectLost = onConnectLost;
       client.onMessageArrived = onMessageArrived;
-      client.connect({onSuccess: onConnect, keepAliveInterval: 300});
+      client.connect({ onSuccess: onConnect, keepAliveInterval: 300 });
       client.reconnect = true;
     </script>
-    
-    <form method="POST" action="/">
-      <div class="w-50 d-flex flex-row justify-content-between align-item-center">
-        <div class="column">
+    <div class="d-flex flex-row justify-content-between">
+      <div
+        class="w-25 d-flex flex-column justify-content-between align-item-center"
+      >
+        <div class="card p-3 m-3">
           <h2>Bathrooom</h2>
           <div class="row">
             <label class="switch" id="1">
-              <input class="toggle" id="1" type="checkbox"/>
+              <input class="toggle" id="1" type="checkbox" />
               <span class="slider round"></span>
             </label>
             <div class="m-2">Lamp</div>
@@ -62,7 +95,7 @@
           </div>
           <div class="row">
             <label class="switch" id="2">
-              <input class="toggle" id="2" type="checkbox"/>
+              <input class="toggle" id="2" type="checkbox" />
               <span class="slider round"></span>
             </label>
             <div class="m-2">Water heater</div>
@@ -71,11 +104,11 @@
             </div>
           </div>
         </div>
-        <div class="column">
+        <div class="card p-3 m-3">
           <h2>Living room</h2>
           <div class="row">
             <label class="switch" id="3">
-              <input class="toggle" id="3" type="checkbox"/>
+              <input class="toggle" id="3" type="checkbox" />
               <span class="slider round"></span>
             </label>
             <div class="m-2">Televison</div>
@@ -84,11 +117,11 @@
             </div>
           </div>
         </div>
-        <div class="column">
+        <div class="card p-3 m-3">
           <h2>Bedroom</h2>
           <div class="row">
             <label class="switch" id="4">
-              <input class="toggle" id="4" type="checkbox"/>
+              <input class="toggle" id="4" type="checkbox" />
               <span class="slider round"></span>
             </label>
             <div class="m-2">Air Condition</div>
@@ -97,11 +130,11 @@
             </div>
           </div>
         </div>
-        <div class="column">
+        <div class="card p-3 m-3">
           <h2>Work room</h2>
           <div class="row">
             <label class="switch" id="5">
-              <input class="toggle" id="5" type="checkbox"/>
+              <input class="toggle" id="5" type="checkbox" />
               <span class="slider round"></span>
             </label>
             <div class="m-2">Fan</div>
@@ -111,57 +144,60 @@
           </div>
         </div>
       </div>
-    </form>
+      <div class="chart-container">
+        <canvas id="chart-overall"></canvas>
+      </div>
+    </div>
     <script>
-      $("input").click((event) => {
+      $("input").click(event => {
         event.preventDefault();
         let id = event.target.id + (!event.target.checked ? "0" : "1");
         console.log(id);
         client.send("slaves/control", id, 1, true);
-        $("div#"+event.target.id+".spinner-grow").show();
-      })
-    </script>
-    <div class="chart-container">
-      <canvas id="chart-overall"></canvas>
-    </div>
-    <script>
-      var ctx = document.getElementById('chart-overall').getContext('2d');
-      var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-              datasets: [{
-                  label: 'Consumption $',
-                  data: [521, 494, 469],
-              }],
-              labels: ["Last Month", "This Month", "Next Month"]
-          },
-          options: {
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero: true
-                      }
-                  }]
-              },
-              aspectRatio: 1,
-              annotation: {
-                annotations: [{
-                    type: 'line',
-                    mode: 'horizontal',
-                    scaleID: 'y-axis-0',
-                    value: 400,
-                    borderColor: 'red',
-                    borderWidth: 2
-                }],
-              }
-          }
+        $("div#" + event.target.id + ".spinner-grow").show();
       });
     </script>
-    <div class="chart-container">
-      <canvas id="chart-custom"></canvas>
-    </div>
-    <script type='text/javascript'>
-      
+    <script>
+      let ctx = document.getElementById("chart-overall").getContext("2d");
+      let warningValue;
+      $.get("http://baokhoa.tk/api/getWarningValue", (data, status) => {
+        warningValue = data.value;
+        let myChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            datasets: [
+              {
+                label: "Consumption $",
+                data: [521, 494, 469]
+              }
+            ],
+            labels: ["Last Month", "This Month", "Next Month"]
+          },
+          options: {
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }
+              ]
+            },
+            annotation: {
+              annotations: [
+                {
+                  type: "line",
+                  mode: "horizontal",
+                  scaleID: "y-axis-0",
+                  value: warningValue,
+                  borderColor: "red",
+                  borderWidth: 2
+                }
+              ]
+            }
+          }
+        });
+      });
     </script>
   </body>
 </html>

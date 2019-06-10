@@ -32,49 +32,82 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
   </head>
-  <body class="h-auto">
-    <div class="col-md-5">
-      <div class="form-group">
-        <div
-          class="input-group date"
-          id="datetimepicker7"
-          data-target-input="nearest"
-        >
+  <body class="h-auto p-0">
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="/">Navbar</a>
+      <a class="navbar-brand" href="#">Supervise</a>
+    </nav>
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column w-25">
+        <div class="card">
+          <div class="m-2">
+            <div class="form-group">
+              <div
+                class="input-group date"
+                id="datetimepicker7"
+                data-target-input="nearest"
+              >
+                <input
+                  type="text"
+                  class="form-control datetimepicker-input"
+                  data-target="#datetimepicker7"
+                />
+                <div
+                  class="input-group-append"
+                  data-target="#datetimepicker7"
+                  data-toggle="datetimepicker"
+                >
+                  <div class="input-group-text">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="m-2">
+            <div class="form-group">
+              <div
+                class="input-group date"
+                id="datetimepicker8"
+                data-target-input="nearest"
+              >
+                <input
+                  type="text"
+                  class="form-control datetimepicker-input"
+                  data-target="#datetimepicker8"
+                />
+                <div
+                  class="input-group-append"
+                  data-target="#datetimepicker8"
+                  data-toggle="datetimepicker"
+                >
+                  <div class="input-group-text">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="m-2">
+              <button id="submit-date" type="button" class="btn btn-primary">
+                Primary
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mt-3">
           <input
             type="text"
-            class="form-control datetimepicker-input"
-            data-target="#datetimepicker7"
+            class="form-control"
+            aria-label="Amount (to the nearest dollar)"
+            id="warning-value"
           />
-          <div
-            class="input-group-append"
-            data-target="#datetimepicker7"
-            data-toggle="datetimepicker"
-          >
-            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+          <div class="input-group-append">
+            <span class="input-group-text">kW</span>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-5">
-      <div class="form-group">
-        <div
-          class="input-group date"
-          id="datetimepicker8"
-          data-target-input="nearest"
-        >
-          <input
-            type="text"
-            class="form-control datetimepicker-input"
-            data-target="#datetimepicker8"
-          />
-          <div
-            class="input-group-append"
-            data-target="#datetimepicker8"
-            data-toggle="datetimepicker"
-          >
-            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-          </div>
-        </div>
+      <div class="chart-container">
+        <canvas id="chart-detail"></canvas>
       </div>
     </div>
     <script type="text/javascript">
@@ -86,6 +119,43 @@
         });
         $("#datetimepicker8").on("change.datetimepicker", function(e) {
           $("#datetimepicker7").datetimepicker("maxDate", e.date);
+        });
+        $("input#warning-value").keypress(event => {
+          if (event.which == 13) {
+            alert(`Submit warning: ${event.target.value}`);
+          }
+        });
+        $.get("http://baokhoa.tk/api/getWarningValue", (data, status) => {
+          $("input#warning-value").attr("placeholder", data.value);
+        });
+        let ctx = document.getElementById("chart-detail").getContext("2d");
+        let detailChart = new Chart(ctx, {
+          type: "line",
+          data: {
+            datasets: [],
+            labels: []
+          },
+          options: {
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }
+              ]
+            },
+            annotations: [
+              {
+                type: "line",
+                mode: "vertical",
+                scalesID: "y-axis-0",
+                value: 1,
+                borderColor: "red",
+                borderWidth: 2
+              }
+            ]
+          }
         });
       });
     </script>
