@@ -278,13 +278,8 @@
           $.get({
             crossDomain: true,
             url: "http://baokhoa.tk/api/getSome",
-            method: "GET",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              "cache-control": "no-cache",
-              "Postman-Token": "7decad65-2e8f-4a25-8441-00f8468f584e"
-            },
-            data: data,
+            contentType: "application/x-www-form-urlencoded",
+            data: JSON.stringify(data),
             success: success
           });
         });
