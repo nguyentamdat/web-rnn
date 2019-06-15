@@ -272,10 +272,15 @@
             method: "GET",
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              "cache-control": "no-cache"
+              "cache-control": "no-cache",
+              "Postman-Token": "09742668-ccdb-44bd-a6aa-c7ce29eb0962"
             },
-            data: data
+            data: {
+              time: "1560531600000",
+              next: "1560531600000"
+            }
           };
+
           $.ajax(settings).done(function(response) {
             console.log(response);
           });
