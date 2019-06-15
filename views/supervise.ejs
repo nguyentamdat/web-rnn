@@ -251,33 +251,36 @@
               .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
               .toDate()
           );
-          $.get(
-            "http://baokhoa.tk/api/getSome",
-            {
-              time: +beginDate.set({
-                hour: 0,
-                minute: 0,
-                second: 0,
-                millisecond: 0
-              }),
-              next: +endDate.set({
-                hour: 0,
-                minute: 0,
-                second: 0,
-                millisecond: 0
-              })
-            },
-            (data, status) => {
-              data = data.map(item => {
-                return {
-                  x: item.day,
-                  y: item.value
-                };
-              });
-              console.log(data);
-              updateChart(detailChart, data);
-            }
-          );
+          const data = {
+            time: +beginDate.set({
+              hour: 0,
+              minute: 0,
+              second: 0,
+              millisecond: 0
+            }),
+            next: +endDate.set({
+              hour: 0,
+              minute: 0,
+              second: 0,
+              millisecond: 0
+            })
+          };
+          const success = (data, status) => {
+            data = data.map(item => {
+              return {
+                x: item.day,
+                y: item.value
+              };
+            });
+            console.log(data);
+            updateChart(detailChart, data);
+          };
+          $.get({
+            url: "http://baokhoa.tk/api/getSome",
+            contentType: "application/x-www-form-urlencoded;charset=utf-8",
+            data: data,
+            success: success
+          });
         });
       });
       function filterData(chart) {
