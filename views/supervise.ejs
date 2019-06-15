@@ -273,7 +273,7 @@
 
           $.ajax(settings).done(function(response) {
             console.log(response);
-            response.map(item => {
+            const data = response.map(item => {
               return {
                 x: moment(item.day),
                 y: item.value
