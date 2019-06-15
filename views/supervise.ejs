@@ -226,8 +226,8 @@
         });
         function updateChart(chart, data) {
           chart.data.datasets[0].data = data;
-          chart.options.scales.xAxes[0].ticks.min = data[0].t;
-          chart.options.scales.xAxes[0].ticks.max = data[data.length - 1].t;
+          chart.options.scales.xAxes[0].ticks.min = data[0].x;
+          chart.options.scales.xAxes[0].ticks.max = data[data.length - 1].x;
           chart.update();
         }
         $.get("http://baokhoa.tk/api/getListPower", (data, status) => {
