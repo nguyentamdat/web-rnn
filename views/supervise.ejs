@@ -270,7 +270,7 @@
           $.ajax(settings).done(function(response) {
             const data = response.map(item => {
               return {
-                x: moment(item.day),
+                x: moment(item.time),
                 y: item.value
               };
             });
