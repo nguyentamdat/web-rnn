@@ -265,16 +265,6 @@
               millisecond: 0
             })
           };
-          const success = (data, status) => {
-            data = data.map(item => {
-              return {
-                x: item.day,
-                y: item.value
-              };
-            });
-            console.log(data);
-            updateChart(detailChart, data);
-          };
           var settings = {
             async: true,
             crossDomain: true,
@@ -284,9 +274,8 @@
               "Content-Type": "application/x-www-form-urlencoded",
               "cache-control": "no-cache"
             },
-            data: JSON.stringify(data)
+            data: data
           };
-
           $.ajax(settings).done(function(response) {
             console.log(response);
           });
