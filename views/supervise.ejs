@@ -275,12 +275,19 @@
             console.log(data);
             updateChart(detailChart, data);
           };
-          $.get({
+          var settings = {
+            async: true,
             crossDomain: true,
             url: "http://baokhoa.tk/api/getSome",
-            contentType: "application/x-www-form-urlencoded",
-            data: JSON.stringify(data),
-            success: success
+            method: "GET",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            data: data
+          };
+
+          $.ajax(settings).done(function(response) {
+            console.log(response);
           });
         });
       });
