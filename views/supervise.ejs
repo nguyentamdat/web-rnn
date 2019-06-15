@@ -276,8 +276,14 @@
             updateChart(detailChart, data);
           };
           $.get({
+            crossDomain: true,
             url: "http://baokhoa.tk/api/getSome",
-            contentType: "application/x-www-form-urlencoded;charset=utf-8",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              "cache-control": "no-cache",
+              "Postman-Token": "7decad65-2e8f-4a25-8441-00f8468f584e"
+            },
             data: data,
             success: success
           });
