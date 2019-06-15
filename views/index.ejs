@@ -185,15 +185,22 @@
     <script>
       let ctx = document.getElementById("chart-overall").getContext("2d");
       let warningValue;
-      $.get("http://baokhoa.tk/api/getWarningValue", (data, status) => {
-        warningValue = data.value;
+      let listPower = [];
+      $.when(
+        $.get("http://baokhoa.tk/api/getWarningValue", (data, status) => {
+          warningValue = data.value;
+        }),
+        $.get("http://baokhoa.tk/api/getRecentPower", (data, status) => {
+          listPower = data.value;
+        })
+      ).then(() => {
         let myChart = new Chart(ctx, {
           type: "bar",
           data: {
             datasets: [
               {
                 label: "Consumption kWh",
-                data: [521, 321, 496]
+                data: listPower
               }
             ],
             labels: ["Last Month", "This Month", "Next Month"]
