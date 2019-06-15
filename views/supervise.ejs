@@ -180,7 +180,7 @@
           submitWarning($("input#warning-value").val());
         });
         $.get("http://baokhoa.tk/api/getWarningValue", (data, status) => {
-          $("input#warning-value").attr("placeholder", data.value);
+          $("input#warning-value").attr("placeholder", data[0].value);
         });
         let ctx = document.getElementById("chart-detail").getContext("2d");
         let detailChart = new Chart(ctx, {
@@ -254,12 +254,18 @@
           $.get(
             "http://baokhoa.tk/api/getSome",
             {
-              time: beginDate
-                .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-                .toDate(),
-              next: endDate
-                .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-                .toDate()
+              time: +beginDate.set({
+                hour: 0,
+                minute: 0,
+                second: 0,
+                millisecond: 0
+              }),
+              next: +endDate.set({
+                hour: 0,
+                minute: 0,
+                second: 0,
+                millisecond: 0
+              })
             },
             (data, status) => {
               data = data.map(item => {

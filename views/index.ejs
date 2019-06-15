@@ -188,19 +188,25 @@
       let listPower = [];
       $.when(
         $.get("http://baokhoa.tk/api/getWarningValue", (data, status) => {
-          warningValue = data.value;
+          warningValue = data[0].value;
         }),
         $.get("http://baokhoa.tk/api/getRecentPower", (data, status) => {
-          listPower = data.value;
+          listPower = data;
         })
       ).then(() => {
+        console.log(warningValue);
+        console.log(listPower);
         let myChart = new Chart(ctx, {
           type: "bar",
           data: {
             datasets: [
               {
                 label: "Consumption kWh",
-                data: listPower
+                data: [
+                  listPower.lastMonth,
+                  listPower.thisMonth,
+                  listPower.forecast
+                ]
               }
             ],
             labels: ["Last Month", "This Month", "Next Month"]
