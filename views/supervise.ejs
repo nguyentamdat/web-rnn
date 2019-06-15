@@ -268,13 +268,13 @@
           };
 
           $.ajax(settings).done(function(response) {
-            console.log(response);
             const data = response.map(item => {
               return {
                 x: moment(item.day),
                 y: item.value
               };
             });
+            console.log(data);
             updateChart(detailChart, data);
           });
         });
